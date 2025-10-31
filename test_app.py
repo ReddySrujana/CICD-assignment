@@ -1,6 +1,8 @@
 from app import app
 
 
+# ⬆one empty line here
+# and another one here
 
 def test_get_message():
     with app.test_client() as client:

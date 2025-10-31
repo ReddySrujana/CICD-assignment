@@ -36,7 +36,8 @@ jobs:
           if [ -f .flake8 ] || [ -f setup.cfg ] || [ -f tox.ini ] || [ -f .pep8 ]; then
             flake8 .
           else
-            echo "No lint configuration found, skipping linting."
+            echo "No lint configuration found, running default flake8 checks (ignoring E302)."
+            flake8 --ignore=E302 .
           fi
 
       # Step 4: Run Python tests

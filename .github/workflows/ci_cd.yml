@@ -28,11 +28,30 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       # Step 3: Lint Python code
-      #### 
+      - name: Install flake8
+        run: pip install flake8
+
+      - name: Lint Python code
+        run: |
+          if [ -f .flake8 ] || [ -f setup.cfg ] || [ -f tox.ini ] || [ -f .pep8 ]; then
+            flake8 .
+          else
+            echo "No lint configuration found, running default flake8 checks."
+            flake8 .
+          fi
 
       # Step 4: Run Python tests
-      ####
+      - name: Install pytest
+        run: pip install pytest
 
+      - name: Run Python tests
+        run: |
+          if [ -f pytest.ini ] || ls tests >/dev/null 2>&1; then
+            pytest
+          else
+            echo "No tests found, skipping tests."
+          fi
+          
   deploy:
     name: Deploy & Push to Docker Hub
     needs: [backend_flask]
